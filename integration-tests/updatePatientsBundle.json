@@ -1,0 +1,66 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:54df7225-11c2-427f-a227-f5c3664c770c",
+      "resource": {
+        "id": "54df7225-11c2-427f-a227-f5c3664c770c",
+        "resourceType": "Patient",
+        "name": [
+          {
+            "family": "Jameson",
+            "given": [
+              "Matt"
+            ]
+          }
+        ],
+        "gender": "male"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:82348d08-43fc-488b-a0e5-91ad97ae5e79",
+      "resource": {
+        "id": "82348d08-43fc-488b-a0e5-91ad97ae5e79",
+        "resourceType": "Patient",
+        "name": [
+          {
+            "family": "Jameson",
+            "given": [
+              "Matt"
+            ]
+          }
+        ],
+        "gender": "male"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9aafe7a5-879c-4b22-8991-76a91e219270",
+      "resource": {
+        "id": "9aafe7a5-879c-4b22-8991-76a91e219270",
+        "resourceType": "Patient",
+        "name": [
+          {
+            "family": "Jameson",
+            "given": [
+              "Matt"
+            ]
+          }
+        ],
+        "gender": "male"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient"
+      }
+    }
+  ]
+}
