@@ -17,7 +17,7 @@ custom:
   patientPickerEndpoint: ${opt:patientPickerEndpoint}
   useHapiValidator: ${opt:useHapiValidator, 'false'}
   enableMultiTenancy: ${opt:enableMultiTenancy, 'false'}
-  logLevel: ${opt:logLevel, 'error'}
+  logLevel: ${opt:logLevel, 'debug'}
   enableESHardDelete: ${opt:enableESHardDelete, 'false'}
   patientCompartmentFileV3: 'patientCompartmentSearchParams.3.0.2.json'
   patientCompartmentFileV4: 'patientCompartmentSearchParams.4.0.1.json'
@@ -101,7 +101,7 @@ functions:
           method: GET
           path: /.well-known/smart-configuration
     handler: src/index.default
-    provisionedConcurrency: 5
+#    provisionedConcurrency: 5
     environment:
       EXPORT_STATE_MACHINE_ARN: !Ref BulkExportStateMachine
       PATIENT_COMPARTMENT_V3: ${self:custom.patientCompartmentFileV3}
