@@ -83,7 +83,7 @@ export default class BulkExportTestHelper {
         const fiveMinuteFromNow = new Date(new Date().getTime() + this.FIVE_MINUTES_IN_MS);
         while (new Date().getTime() < fiveMinuteFromNow.getTime()) {
             try {
-                console.log('Checking export status');
+                // console.log('Checking export status');
                 // eslint-disable-next-line no-await-in-loop
                 const response = await this.fhirUserAxios.get(statusPollUrl);
                 if (response.status === 200) {
