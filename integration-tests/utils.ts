@@ -246,21 +246,21 @@ const expectSearchResultsToFulfillExpectation = async (
     bundleEntryExpectation: jest.Expect,
 ) => {
     if (search.postQueryParams === undefined) {
-        console.log('GET Searching with params:', search);
+        // console.log('GET Searching with params:', search);
         const searchResult = (await client.get(search.url, { params: search.params })).data;
         expect(searchResult).toMatchObject({
             resourceType: 'Bundle',
             entry: bundleEntryExpectation,
         });
 
-        console.log('POST Searching with params as x-www-form-urlencoded in body:', search);
+        // console.log('POST Searching with params as x-www-form-urlencoded in body:', search);
         const postSearchResult = (await client.post(`${search.url}/_search`, qs.stringify(search.params))).data;
         expect(postSearchResult).toMatchObject({
             resourceType: 'Bundle',
             entry: bundleEntryExpectation,
         });
     } else {
-        console.log('POST Searching with params in body and in query:', search);
+        // console.log('POST Searching with params in body and in query:', search);
         const postSearchRepeatingParamsResult = (
             await client.post(`${search.url}/_search`, qs.stringify(search.params), { params: search.postQueryParams })
         ).data;
