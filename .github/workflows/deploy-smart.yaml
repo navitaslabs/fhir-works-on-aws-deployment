@@ -109,6 +109,7 @@ jobs:
     name: Run custom integration tests
     runs-on: ubuntu-18.04
     strategy:
+      fail-fast: false
       matrix:
         include:
           - enableMultiTenancy: false
