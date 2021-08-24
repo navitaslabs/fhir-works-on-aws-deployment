@@ -13,7 +13,7 @@ export const scopeRule: ScopeRule = {
     },
     user: {
         read: ['read', 'vread', 'search-type', 'search-system', 'history-instance', 'history-type', 'history-system'],
-        write: ['update', 'patch', 'create', 'transaction'],
+        write: ['update', 'patch', 'create', 'delete', 'transaction'],
     },
     system: {
         // "read" allows system export and group export
