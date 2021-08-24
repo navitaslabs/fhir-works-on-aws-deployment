@@ -78,8 +78,11 @@ describe('Bulk Export', () => {
 
         beforeAll(async () => {
             const fhirUserAxios = await getFhirClient('fhirUser system/*.*', true);
+            const systemScopeFhirClient = await getFhirClient('fhirUser system/*.*', true);
 
-            bulkExportTestHelper = new BulkExportTestHelper(fhirUserAxios);
+            bulkExportTestHelper = new BulkExportTestHelper(systemScopeFhirClient, {
+                bundleClientOverride: fhirUserAxios,
+            });
         });
 
         test('Successfully export a group and patient compartment', async () => {

@@ -37,8 +37,15 @@ export default class BulkExportTestHelper {
 
     fhirUserAxios: AxiosInstance;
 
-    constructor(fhirUserAxios: AxiosInstance) {
+    bundleClient: AxiosInstance;
+
+    constructor(fhirUserAxios: AxiosInstance, { bundleClientOverride }: { bundleClientOverride?: AxiosInstance } = {}) {
         this.fhirUserAxios = fhirUserAxios;
+        if (bundleClientOverride === undefined) {
+            this.bundleClient = bundleClientOverride;
+        } else {
+            this.bundleClient = this.fhirUserAxios;
+        }
     }
 
     async startExportJob(startExportJobParam: StartExportJobParam) {
@@ -106,7 +113,7 @@ export default class BulkExportTestHelper {
 
     async sendCreateResourcesRequest() {
         try {
-            const response = await this.fhirUserAxios.post('/', createBundle);
+            const response = await this.bundleClient.post('/', createBundle);
             console.log('Successfully sent create resource request to FHIR server', JSON.stringify(response.data));
             return response.data;
         } catch (e) {
@@ -129,7 +136,7 @@ export default class BulkExportTestHelper {
                 ...groupMemberMeta,
             })) as any[];
 
-            const response = await this.fhirUserAxios.post('/', createGroupBundle);
+            const response = await this.bundleClient.post('/', createGroupBundle);
 
             console.log(
                 'Successfully sent create group resource request to FHIR server',
