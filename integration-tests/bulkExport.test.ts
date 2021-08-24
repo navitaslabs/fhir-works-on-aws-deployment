@@ -77,7 +77,7 @@ describe('Bulk Export', () => {
         let bulkExportTestHelper: BulkExportTestHelper;
 
         beforeAll(async () => {
-            const fhirUserAxios = await getFhirClient('fhirUser system/*.*', true);
+            const fhirUserAxios = await getFhirClient('fhirUser user/*.*', true);
             const systemScopeFhirClient = await getFhirClient('fhirUser system/*.*', true);
 
             bulkExportTestHelper = new BulkExportTestHelper(systemScopeFhirClient, {
