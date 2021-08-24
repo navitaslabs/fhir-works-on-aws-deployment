@@ -41,7 +41,7 @@ export default class BulkExportTestHelper {
 
     constructor(fhirUserAxios: AxiosInstance, { bundleClientOverride }: { bundleClientOverride?: AxiosInstance } = {}) {
         this.fhirUserAxios = fhirUserAxios;
-        if (bundleClientOverride === undefined) {
+        if (bundleClientOverride !== undefined) {
             this.bundleClient = bundleClientOverride;
         } else {
             this.bundleClient = this.fhirUserAxios;
