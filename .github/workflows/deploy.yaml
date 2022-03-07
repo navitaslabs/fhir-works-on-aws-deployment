@@ -105,7 +105,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          serverless deploy --stage dev --region ${{ matrix.region }} --useHapiValidator true --enableMultiTenancy --enableSubscriptions true ${{ matrix.enableMultiTenancy }} --conceal
+          serverless deploy --stage dev --region ${{ matrix.region }} --useHapiValidator true --enableMultiTenancy ${{ matrix.enableMultiTenancy }} --enableSubscriptions true --conceal
       - name: Deploy auditLogMover
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
