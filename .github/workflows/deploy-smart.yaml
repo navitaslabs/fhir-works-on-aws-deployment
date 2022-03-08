@@ -45,72 +45,8 @@ jobs:
           poll-interval-seconds: 10
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  deploy:
-    needs: pre-deployment-check
-    name: Deploy to Dev - enableMultiTenancy=${{ matrix.enableMultiTenancy }}
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        include:
-          - enableMultiTenancy: false
-            region: us-east-2
-            issuerEndpointSecretName: SMART_ISSUER_ENDPOINT
-            oAuth2ApiEndpointSecretName: SMART_OAUTH2_API_ENDPOINT
-            patientPickerEndpointSecretName: SMART_PATIENT_PICKER_ENDPOINT
-          - enableMultiTenancy: true
-            region: us-west-1
-            issuerEndpointSecretName: MULTITENANCY_SMART_ISSUER_ENDPOINT
-            oAuth2ApiEndpointSecretName: MULTITENANCY_SMART_OAUTH2_API_ENDPOINT
-            patientPickerEndpointSecretName: MULTITENANCY_SMART_PATIENT_PICKER_ENDPOINT
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-      - name: Install npm dependencies
-        run: yarn install
-      - name: Download US Core IG
-        # NOTE if updating the IG version. Please see update implementationGuides.test.ts test too.
-        run: |
-          mkdir -p implementationGuides
-          curl http://hl7.org/fhir/us/core/STU3.1.1/package.tgz | tar xz -C implementationGuides
-      - name: Compile IGs
-        run: yarn run compile-igs
-      - name: Setup allowList for Subscriptions integ tests
-        run: cp integration-tests/infrastructure/allowList-integTests.ts src/subscriptions/allowList.ts
-      - name: Install serverless
-        run: npm install -g serverless@2.64.1
-      - name: Deploy Hapi validator
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SMART_AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SMART_AWS_SECRET_ACCESS_KEY }}
-        run: |
-          cd javaHapiValidatorLambda
-          mvn --batch-mode --update-snapshots --no-transfer-progress clean install
-          serverless deploy --stage dev --region ${{ matrix.region }} --conceal
-          cd ..
-      - name: Deploy FHIR Server and ddbToEs
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SMART_AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SMART_AWS_SECRET_ACCESS_KEY }}
-        run: |
-          yarn install
-          serverless deploy --stage dev --region ${{ matrix.region }} --issuerEndpoint ${{ secrets[matrix.issuerEndpointSecretName] }} --oAuth2ApiEndpoint ${{ secrets[matrix.oAuth2ApiEndpointSecretName] }} --patientPickerEndpoint ${{ secrets[matrix.patientPickerEndpointSecretName] }} --useHapiValidator true --enableSubscriptions true --enableMultiTenancy ${{ matrix.enableMultiTenancy }} --conceal
-      - name: Deploy auditLogMover
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.SMART_AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.SMART_AWS_SECRET_ACCESS_KEY }}
-        run: |
-          cd auditLogMover
-          yarn install
-          serverless deploy --stage dev --region ${{ matrix.region }} --conceal
   inferno-test:
-    needs: deploy
+    needs: pre-deployment-check
     name: Run Inferno Tests - enableMultiTenancy=${{ matrix.enableMultiTenancy }}
     runs-on: ubuntu-18.04
     strategy:
