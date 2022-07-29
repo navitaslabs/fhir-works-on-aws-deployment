@@ -1,0 +1,73 @@
+1.
+Sync Code: Clone below to a parent directory (example: under awsfhir folder)
+
+git clone https://github.com/navitaslabs/fhir-works-on-aws-deployment.git
+git clone https://github.com/navitaslabs/fhir-works-on-aws-interface.git
+git clone https://github.com/navitaslabs/fhir-works-on-aws-persistence-ddb.git
+git clone https://github.com/navitaslabs/fhir-works-on-aws-search-es.git
+git clone https://github.com/navitaslabs/fhir-works-on-aws-authz-rbac.git
+git clone https://github.com/navitaslabs/fhir-works-on-aws-routing.git
+
+
+2. 
+Software to be installed:
+
+AWS CLI
+AWSpowershell
+AWSpowershell.netcore
+AWSTools
+Nodejs
+Python
+boot3
+yarn
+serverless
+
+3.
+Linking packages 
+
+	a. 
+	Copy below files from ./fhir-works-on-aws-deployment/scripts to your parent directory
+
+	fhir-works-local-develop.sh
+	fhir-works-deploy.sh
+	fhir-works-deploy-one-time-setup.sh
+
+	b. 
+		i. Run ./fhir-works-local-develop.sh from the parent directory. 
+		ii. Run yarn watch in the directory of each package that you're developing in. This will pick up live chnages
+		iii. Run this command in the deployment package directory to start your local environment:
+
+		AWS_ACCESS_KEY_ID=<FHIR_DEVOPS_ACCESSKEYID> AWS_SECRET_ACCESS_KEY=<FHIR_DEVOPS_SECRETKEY> OFFLINE_BINARY_BUCKET=fhir-service-dev-fhirbinarybucket-1u1q88abdbxvv OFFLINE_ELASTICSEARCH_DOMAIN_ENDPOINT=https://search-fhir-se-elasti-m7iznfm31jwx-f3tt6aexszen22ntbjv4oa67de.us-east-1.es.amazonaws.com OFFLINE_VALIDATOR_LAMBDA_ALIAS=arn:aws:lambda:us-east-1:043115584519:function:fhir-service-validator-dev-validator:provisioned serverless offline start
+
+		Run serverless info --verbose --region us-east-1 --stage dev to know the various values
+
+4. To Deploy packages
+Run ./fhir-works-deploy-one-time-setup.sh from parent directory
+Package your code for deployment: ./fhir-works-deploy.sh. from parent directory
+
+Run command from deployment directory: serverless deploy --aws-profile default --stage dev
+
+5. Windows command to deploy FHIR works for the first time to AWS (**Information purpose only- Don't execute in Navitas aws account**)
+
+Set-ExecutionPolicy RemoteSigned 
+.\scripts\win_install.ps1 -Region us-east-1 -Stage dev
+
+6. Authorization url for IDP new users & to retrieve authcode for internal/IDP users:
+
+https://3v275dnt1hcbo7ermpp3nvgke8.auth.us-east-1.amazoncognito.com/login?client_id=3v275dnt1hcbo7ermpp3nvgke8&response_type=code&scope=openid&redirect_uri=https://oauth.pstmn.io/v1/browser-callback
+
+7. Postman Collection for FHIR Authorization
+
+https://mynavitas.sharepoint.com/:u:/s/NavitasFHIRWorks/EZD4Xv1Tjw9GmSeIDYoVa_wBWpWF06LYtOaf5beOX7SuEg?e=tLPKU3
+
+8. Postman Collection for FHIR APIs
+
+https://mynavitas.sharepoint.com/:u:/s/NavitasFHIRWorks/EeKEyJqw0hZLpa0e0UABD64Bhp2w0XFHNcHv_OQReFYpVg?e=eE6LHP
+
+
+
+
+
+
+
+
