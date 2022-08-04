@@ -38,7 +38,7 @@ custom:
 
 provider:
   name: aws
-  region: us-west-2
+  region: us-east-1
   stage: dev
   runtime: nodejs14.x
   architecture: x86_64
